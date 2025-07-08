@@ -356,6 +356,197 @@ processors=4
 
 ---
 
+## 🐳 Docker Installation
+
+Docker provides an isolated environment for running Roop-Floyd with all dependencies pre-configured. This is the easiest way to get started regardless of your operating system.
+
+### Prerequisites for Docker
+
+1. **Docker Desktop**: [Download for Windows](https://docs.docker.com/desktop/install/windows-install/) | [Download for Linux](https://docs.docker.com/desktop/install/linux-install/)
+2. **For GPU Support**: [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html)
+
+### Quick Start with Docker
+
+#### Option 1: CPU-Only Version (No GPU Required)
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/roop-floyd.git
+cd roop-floyd
+
+# Create required directories
+mkdir -p input output models temp
+
+# Build and run with Docker Compose
+docker-compose up --build
+```
+
+#### Option 2: GPU-Accelerated Version (NVIDIA Only)
+
+**Step 1: Install NVIDIA Docker Support**
+
+For Ubuntu/Debian:
+```bash
+# Add NVIDIA package repositories
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+
+# Install nvidia-container-toolkit
+sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
+sudo systemctl restart docker
+```
+
+For Windows:
+- Ensure you have WSL2 with GPU support enabled
+- Install NVIDIA drivers for WSL
+- Docker Desktop will automatically detect GPU support
+
+**Step 2: Run GPU Version**
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/roop-floyd.git
+cd roop-floyd
+
+# Create required directories
+mkdir -p input output models temp
+
+# Build and run GPU version
+docker-compose -f docker-compose.gpu.yml up --build
+```
+
+### Manual Docker Commands
+
+#### CPU Version
+```bash
+# Build the image
+docker build -t roop-floyd:cpu .
+
+# Run the container
+docker run -d \
+  --name roop-floyd-app \
+  -p 7860:7860 \
+  -v $(pwd)/input:/app/input \
+  -v $(pwd)/output:/app/output \
+  -v $(pwd)/models:/app/models \
+  roop-floyd:cpu
+```
+
+#### GPU Version
+```bash
+# Build the GPU image
+docker build -f Dockerfile.gpu -t roop-floyd:gpu .
+
+# Run with GPU support
+docker run -d \
+  --name roop-floyd-gpu-app \
+  --gpus all \
+  -p 7860:7860 \
+  -v $(pwd)/input:/app/input \
+  -v $(pwd)/output:/app/output \
+  -v $(pwd)/models:/app/models \
+  roop-floyd:gpu
+```
+
+### Docker Environment Configuration
+
+#### Volume Mapping
+- `./input:/app/input` - Place your source images/videos here
+- `./output:/app/output` - Processed results will appear here
+- `./models:/app/models` - AI models will be stored here
+- `./temp:/app/temp` - Temporary processing files
+
+#### Environment Variables
+You can customize the Docker container with environment variables:
+
+```yaml
+environment:
+  - GRADIO_SERVER_NAME=0.0.0.0  # Server host
+  - GRADIO_SERVER_PORT=7860     # Server port
+  - CUDA_VISIBLE_DEVICES=0      # GPU device (GPU version only)
+```
+
+### Production Deployment
+
+For production deployment, you can use the included reverse proxy configuration:
+
+1. **Enable NGINX in docker-compose.yml**:
+```yaml
+# Uncomment the nginx service in docker-compose.yml
+```
+
+2. **Create SSL certificates** (optional):
+```bash
+mkdir ssl
+# Add your SSL certificates to the ssl/ directory
+```
+
+3. **Deploy**:
+```bash
+docker-compose up -d
+```
+
+### Docker Troubleshooting
+
+#### Common Issues:
+
+1. **Permission Denied on Volume Mounts**:
+```bash
+# Fix permissions
+sudo chown -R 1000:1000 input output models temp
+```
+
+2. **GPU Not Detected**:
+```bash
+# Test GPU access
+docker run --rm --gpus all nvidia/cuda:11.8-runtime-ubuntu22.04 nvidia-smi
+```
+
+3. **Out of Memory**:
+```bash
+# Limit memory usage
+docker run --memory="4g" --name roop-floyd-app roop-floyd:cpu
+```
+
+4. **Port Already in Use**:
+```bash
+# Use different port
+docker run -p 8080:7860 roop-floyd:cpu
+```
+
+### Docker Updates
+
+To update to the latest version:
+
+```bash
+# Pull latest code
+git pull origin main
+
+# Rebuild containers
+docker-compose down
+docker-compose up --build
+```
+
+### Accessing the Application
+
+Once the Docker container is running:
+
+1. Open your web browser
+2. Navigate to: `http://localhost:7860`
+3. Upload your files using the web interface
+4. Configure settings and start processing!
+
+### Docker Performance Tips
+
+- **Use GPU version** for significantly faster processing
+- **Allocate sufficient RAM** (8GB+ recommended)
+- **Use SSD storage** for volume mounts
+- **Close other containers** to free up resources
+- **Monitor resource usage** with `docker stats`
+
+---
+
 ## 🚀 Usage
 
 ### Windows
