@@ -1,5 +1,6 @@
-## Note
+## Note (If you want to install on docker use roop.rar file)
 First extract the rar file then continue .
+
 A research and educational tool for face swapping technology, forked from the original ROOP project
 
 > **Note**: This repository complies with GitHub's Terms of Service and Acceptable Use Policies. The software is provided for legitimate research, educational, and creative purposes only.
