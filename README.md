@@ -1,6 +1,5 @@
 ## Note (If you want to install on docker use roop.rar file)
 First extract the rar file then continue .
-
 A research and educational tool for face swapping technology, forked from the original ROOP project
 
 > **Note**: This repository complies with GitHub's Terms of Service and Acceptable Use Policies. The software is provided for legitimate research, educational, and creative purposes only.
@@ -79,8 +78,8 @@ Invoke-WebRequest -Uri "https://repo.anaconda.com/miniconda/Miniconda3-latest-Wi
 #### Step 3: Setup Project (NVIDIA RTX 30/40 Series)
 ```powershell
 # Clone repository
-git clone https://github.com/yourusername/roop-floyd.git
-cd roop-floyd
+git clone https://github.com/arpondark/face-swap.git
+cd face-swap
 
 # Create virtual environment
 python -m venv venv
@@ -101,8 +100,8 @@ python run.py
 #### Step 4: Setup Project (NVIDIA RTX 50 Series - Latest)
 ```powershell
 # Clone repository
-git clone https://github.com/yourusername/roop-floyd.git
-cd roop-floyd
+git clone https://github.com/arpondark/face-swap.git
+cd face-swap
 
 # Create virtual environment
 python -m venv venv
@@ -129,8 +128,8 @@ python run.py
 ### For AMD GPU Users
 ```powershell
 # Clone and setup
-git clone https://github.com/yourusername/roop-floyd.git
-cd roop-floyd
+git clone https://github.com/arpondark/face-swap.git
+cd face-swap
 python -m venv venv
 .\venv\Scripts\activate
 
@@ -147,8 +146,8 @@ python run.py
 ### For CPU Only (No GPU)
 ```powershell
 # Clone and setup
-git clone https://github.com/yourusername/roop-floyd.git
-cd roop-floyd
+git clone https://github.com/arpondark/face-swap.git
+cd face-swap
 python -m venv venv
 .\venv\Scripts\activate
 
@@ -227,8 +226,8 @@ source ~/.bashrc
 #### Step 4: Setup Project
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/roop-floyd.git
-cd roop-floyd
+git clone https://github.com/arpondark/face-swap.git
+cd face-swap
 
 # Create virtual environment
 python3 -m venv venv
@@ -257,8 +256,8 @@ sudo apt update
 sudo apt install -y rocm-dev rocm-libs
 
 # Setup project
-git clone https://github.com/yourusername/roop-floyd.git
-cd roop-floyd
+git clone https://github.com/arpondark/face-swap.git
+cd face-swap
 python3 -m venv venv
 source venv/bin/activate
 
@@ -321,8 +320,8 @@ sudo apt install -y python3.10 python3.10-venv python3.10-dev
 ### Step 5: Setup Roop-Floyd in WSL
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/roop-floyd.git
-cd roop-floyd
+git clone https://github.com/arpondark/face-swap.git
+cd face-swap
 
 # Create virtual environment
 python3 -m venv venv
@@ -372,8 +371,8 @@ Docker provides an isolated environment for running Roop-Floyd with all dependen
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/roop-floyd.git
-cd roop-floyd
+git clone https://github.com/arpondark/face-swap.git
+cd face-swap
 
 # Create required directories
 mkdir -p input output models temp
@@ -407,8 +406,8 @@ For Windows:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/roop-floyd.git
-cd roop-floyd
+git clone https://github.com/arpondark/face-swap.git
+cd face-swap
 
 # Create required directories
 mkdir -p input output models temp
@@ -422,32 +421,32 @@ docker-compose -f docker-compose.gpu.yml up --build
 #### CPU Version
 ```bash
 # Build the image
-docker build -t roop-floyd:cpu .
+docker build -t face-swap:cpu .
 
 # Run the container
 docker run -d \
-  --name roop-floyd-app \
+  --name face-swap-app \
   -p 7860:7860 \
   -v $(pwd)/input:/app/input \
   -v $(pwd)/output:/app/output \
   -v $(pwd)/models:/app/models \
-  roop-floyd:cpu
+  face-swap:cpu
 ```
 
 #### GPU Version
 ```bash
 # Build the GPU image
-docker build -f Dockerfile.gpu -t roop-floyd:gpu .
+docker build -f Dockerfile.gpu -t face-swap:gpu .
 
 # Run with GPU support
 docker run -d \
-  --name roop-floyd-gpu-app \
+  --name face-swap-gpu-app \
   --gpus all \
   -p 7860:7860 \
   -v $(pwd)/input:/app/input \
   -v $(pwd)/output:/app/output \
   -v $(pwd)/models:/app/models \
-  roop-floyd:gpu
+  face-swap:gpu
 ```
 
 ### Docker Environment Configuration
@@ -507,13 +506,13 @@ docker run --rm --gpus all nvidia/cuda:11.8-runtime-ubuntu22.04 nvidia-smi
 3. **Out of Memory**:
 ```bash
 # Limit memory usage
-docker run --memory="4g" --name roop-floyd-app roop-floyd:cpu
+docker run --memory="4g" --name face-swap-app face-swap:cpu
 ```
 
 4. **Port Already in Use**:
 ```bash
 # Use different port
-docker run -p 8080:7860 roop-floyd:cpu
+docker run -p 8080:7860 face-swap:cpu
 ```
 
 ### Docker Updates
@@ -577,7 +576,8 @@ python run.py
 ## 📋 Google Colab Installation
 
 For easy cloud-based usage:
-1. Download `roop-floyd-colab.ipynb`
+
+1. Download `face-swap-colab.ipynb`
 2. Upload to Google Colab
 3. Run all cells in sequence
 4. Access the interface through the provided Gradio link
@@ -605,37 +605,6 @@ For easy cloud-based usage:
 ## 📄 License
 
 This project is released under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these guidelines:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-Please ensure your contributions:
-- Follow the existing code style
-- Include appropriate tests
-- Update documentation as needed
-- Respect the ethical use guidelines
-
-## 🔗 Links
-
-- **Original ROOP Project**: [GitHub](https://github.com/s0md3v/roop)
-- **Issues**: [Report bugs or request features](https://github.com/yourusername/roop-floyd/issues)
-- **Discussions**: [Join the community](https://github.com/yourusername/roop-floyd/discussions)
-
-## 📧 Support
-
-For technical support or questions:
-- Open an issue on GitHub
-- Check existing discussions
-- Review the troubleshooting section above
-
----
 
 **Remember**: Always use this software responsibly and in compliance with your local laws and GitHub's terms of service.
 
